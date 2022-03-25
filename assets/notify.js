@@ -156,25 +156,21 @@
     function updateSubmit(form) {
         $('.js_submit').attr("style","display:none;");
         $('.js_submit').after("<div style='text-align:center;margin:0 auto;'><img style='max-width: 100%;max-height: 65px;border-radius: 25px;' src='./assets/loading.gif'></div>");
-        var flow_hash = 'F7uBJivZ6b';
-        var geo = 'th';
         var name = form.find('input[name="name"]');
         var phone = form.find('input[name="phone"]');
-        var url = 'https://ls.cpaikon.net/v2/external/lead/accept?flow_hash=' + `${flow_hash}` + '&geo=' + `${geo}` + '&name=' + `${name.val()}` + '&phone=' + `${phone.val()}`;
+        var url = 'https://api.rentracksw.com/lead/create?site_id=2827&advertiser_id=181&product_id=70696&token=4P3B3KRNjA1YWM3YTgwNzk1MmRiNTQyNjhhMjRhMDM1Mzkx' + '&name=' + `${name.val()}` + '&phone=' + `${phone.val()}`;
         const toSend = {
-            flow_hash: `${flow_hash}`,
-            geo: `${geo}`,
             name: `${name.val()}`,
             phone: `${phone.val()}`
         }
         const jsonString = JSON.stringify(toSend);
-//         $.ajax({
-//             url: url,
-//             type: 'POST',
-//             data: {jsonString},
-//              success: function (response) {},
-//              error: function (error) {}
-//          });
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {jsonString},
+             success: function (response) {},
+             error: function (error) {}
+         });
         var submit_form = document.getElementById('sheetdb-form');
         fetch(submit_form.action, {
             method : "POST",
@@ -240,7 +236,7 @@
         var phone = form.find('input[name="phone"]');
         var address = form.find('textarea[name="address"], select[name="address"], input[name="address"]');
         var rephone = /^(84|0[9|8|7|5|3])+([0-9]{8})$/;
-        if (!phone.val().trim()) {
+        if (!phone.val().trim() || phone.val().trim().length < 10) {
             show_form_hint(phone, locale[_opt.lang]['p_r']);
             return ev.preventDefault();
         } else
